@@ -17,7 +17,7 @@ First-person resource collection and base building game with combat elements in 
 
 ### 2.1 Player Systems
 - First-person movement and interaction
-- Three-tier defensive system (shield, armor, health)
+- Two-tier defensive system (shield, health)
 - Three weapon types (kinetic, energy, explosive)
 - Resource collection capabilities
 
@@ -92,7 +92,7 @@ First-person resource collection and base building game with combat elements in 
 - Node structure following Godot best practices
 
 ### 5.2 Key Systems
-- Health/Shield/Armor using custom resource classes
+- Shield/Health using custom resource classes
 - Resource collection using Area3D interactions
 - Construction using ray-casting for placement
 - Vehicle interaction with proximity prompts
@@ -106,7 +106,7 @@ First-person resource collection and base building game with combat elements in 
 ## 6. User Interface
 
 ### 6.1 HUD Elements
-- Health/Shield/Armor indicators
+- Shield/Health indicators
 - Resource counter
 - Weapon selection and ammo display
 - Interaction prompts
@@ -231,12 +231,12 @@ First-person resource collection and base building game with combat elements in 
 ## 14. Development Tracking
 
 ### 14.1 Task Management
-- Feature implementation checklist
-- Bug tracking system
-- Version control with descriptive commits
+- Feature implementation checklist (TBD)
+- Bug tracking system (TBD)
+- Version control with descriptive commits (GitHub Desktop)
 
 ### 14.2 Milestone Goals
-- **Week 2:** Playable character controller
-- **Week 4:** Resource collection and combat
-- **Week 8:** Vehicle and construction systems
-- **Week 12:** Complete gameplay loop with enemies
+- **Milestone 1:** Playable character controller
+- **Milestone 2:** Resource collection and combat
+- **Milestone 3:** Vehicle and construction systems
+- **Milestone 4:** Complete gameplay loop with enemies
