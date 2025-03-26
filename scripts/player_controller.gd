@@ -33,15 +33,6 @@ func _ready():
 	update_hud()
 
 func _unhandled_input(event):
-	if event is InputEventMouseMotion:
-		print("Mouse motion: ", event.relative)
-	
-	# Mouse look
-	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-event.relative.x * mouse_sensitivity)
-		camera.rotate_x(-event.relative.y * mouse_sensitivity)
-		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
-	
 	# Toggle mouse capture
 	if event.is_action_pressed("ui_cancel"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -54,6 +45,13 @@ func _unhandled_input(event):
 		var collider = interaction_ray.get_collider()
 		if collider.has_method("interact"):
 			collider.interact(self)
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		print("Mouse motion detected")
+		rotate_y(-event.relative.x * mouse_sensitivity)
+		camera.rotate_x(-event.relative.y * mouse_sensitivity)
+		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
 func _physics_process(delta):
 	# Add the gravity
