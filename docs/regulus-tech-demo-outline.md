@@ -1,137 +1,118 @@
-# REGULUS TECH DEMO - PROJECT OUTLINE
+# Regulus Tech Demo - Project Outline
 
-## Overview
-This project outline defines the scope and implementation approach for the Regulus Tech Demo, a single-player PvE experience demonstrating the core gameplay systems of the full Regulus FPS concept. The tech demo will serve as a proof-of-concept for key mechanics while maintaining the established lore, visual style, and design direction.
+## 1. Project Purpose
+Develop a single-player PvE experience demonstrating core gameplay systems of the Regulus FPS concept, serving as a proof of concept for key mechanics.
 
-## 1. Core Systems to Implement
+## 2. Core Systems to Implement
 
-### 1.1 Combat System
-- Player controller with shield/health/armor three-tier defensive system
-- Three weapon categories: kinetic, energy, and explosive with differentiated damage types
-- Enemy AI with basic combat behaviors
+### 2.1 Player Controller
+- First-person movement
+- Shield/health/armor three-tier defensive system
+- Basic combat interactions
+- Equipment management
+
+### 2.2 Combat System
+- Three weapon categories: kinetic, energy, explosive
+- Differentiated damage types
+- Basic enemy AI with combat behaviors
 - Weapon selection and ammo management
 
-### 1.2 Vehicle System
-- Three vehicle classes: light, medium, and heavy
-- Vehicle controls and physics
-- Specialized vehicle types including combat and resource extraction vehicles
-- Vehicle damage system mirroring player defense layers
+### 2.3 Resource System
+- Unobtanium extraction mechanics
+- Resource node types
+- Basic resource collection and transport
+- Resource as currency for equipment
 
-### 1.3 Resource System
-- Unobtanium extraction via specialized vehicles
-- Resource node types and distribution
-- Resource transportation and storage
-- Resource as currency for construction and equipment
-
-### 1.4 Construction System
+### 2.4 Construction System
 - Building placement on predefined foundations
-- Structure types: defensive, utility, resource, and vehicle support
-- Upgrade and repair mechanics
-- Faction-specific visual styles for identical functional structures
+- Basic defensive and utility structures
+- Simple upgrade and repair mechanics
+- Faction-specific visual styles
 
-### 1.5 Squad and Command System
-- Basic AI squad members with command response
-- Tactical positioning and coordination
-- Support abilities triggered by team leaders
-- Simplified version of the full command structure
+### 2.5 Vehicle System
+- Three vehicle classes: light, medium, heavy
+- Basic vehicle controls and physics
+- Simple damage system
+- Resource extraction vehicle
 
-### 1.6 Territory Control System
-- Capture point mechanics
-- Control point progression
-- Strategic benefits from territory ownership
-- Simplified version of the lattice-based system
-
-## 2. Mission Structure
-
-The tech demo will feature a 13-mission progression organized into four phases:
+## 3. Mission Structure
+13 missions organized into four progressive phases:
 
 ### Phase 1: Core Mechanics (Missions 1-3)
-- Introduce basic combat, vehicles, and resource systems
+- Introduce basic combat
+- Weapon and damage system exploration
+- Initial resource interactions
 
 ### Phase 2: System Expansion (Missions 4-6)
-- Expand gameplay with resource logistics, weapon specialization, and construction
+- Resource logistics
+- Basic construction mechanics
+- Initial squad interactions
 
 ### Phase 3: Advanced Systems (Missions 7-9)
-- Implement squad tactics, territory control, and vehicle specialization
+- Squad tactics
+- Territory control basics
+- More complex combat scenarios
 
 ### Phase 4: System Integration (Missions 10-13)
-- Combine all systems into complex scenarios with increasing challenge
-
-## 3. Development Priorities
-
-### Priority 1: Core Player Experience
-- Player controller and combat feel
-- Vehicle controls and functionality
-- Basic enemy AI
-
-### Priority 2: Resource & Construction Loop
-- Resource extraction and transport
-- Basic construction system
-- Simplified economy
-
-### Priority 3: Tactical Gameplay
-- Squad command system
-- Territory control mechanics
-- Advanced mission objectives
-
-### Priority 4: Integration and Polish
-- Faction-specific elements
-- Mission progression system
-- UI and tutorial elements
+- Combine all learned systems
+- Increasing challenge and complexity
+- Final demonstration of integrated gameplay
 
 ## 4. Technical Implementation (Godot 4)
 
 ### 4.1 Core Architecture
-- Character controller using CharacterBody3D
-- Vehicle physics using VehicleBody3D
-- Modular weapon system with inheritance
-- Component-based structure system
+- CharacterBody3D for player controller
+- Component-based design
 - State machine for AI behaviors
+- Modular weapon and vehicle systems
 
-### 4.2 Scene Structure
-- Main game manager scene
-- Player and vehicle scenes
-- Mission controller scenes
-- UI overlay scene
+### 4.2 Performance Considerations
+- Optimize for mid-range hardware
+- Focus on clear, readable low-poly art style
+- Efficient scene management
+- Basic level-of-detail (LOD) implementation
 
-### 4.3 System Implementation
-- Data-driven design for weapons, vehicles, and structures
-- Node-based construction system
-- Navigation mesh for AI pathfinding
-- Resource manager singleton
-- Mission progression system using scene transitions
+## 5. Development Priorities
 
-### 4.4 Asset Requirements
-- Low-poly stylized models for characters, vehicles, and structures
-- Faction-specific visual variants
-- Effect systems for weapons and abilities
-- UI elements for game systems
-- Basic environmental assets for mission areas
+### Priority 1: Player Experience
+- Tight player controls
+- Clear feedback systems
+- Intuitive mechanics
 
-## 5. Testing Strategy
+### Priority 2: Core Systems
+- Weapon and combat feel
+- Resource collection loop
+- Basic AI behaviors
 
-### 5.1 System Testing
-- Isolated testing of individual mechanics
-- Combat balance verification
-- AI behavior testing
-- Vehicle physics tuning
+### Priority 3: Mission Design
+- Progressive difficulty
+- Clear objectives
+- Varied gameplay scenarios
 
-### 5.2 Mission Testing
-- Playthrough testing for each mission
-- Objective clarity verification
-- Difficulty curve assessment
-- System integration testing
+## 6. Minimum Viable Product (MVP) Checklist
+- [ ] Functional player movement
+- [ ] Basic combat system
+- [ ] Resource collection mechanics
+- [ ] 3-4 weapon types
+- [ ] Simple enemy AI
+- [ ] 5-6 complete missions
+- [ ] Basic UI and feedback systems
+- [ ] Single faction implementation
 
-## 6. Key Supporting Documentation
+## 7. Scope Limitations
+- Single-player only
+- No multiplayer features
+- Limited to one faction's assets
+- Simplified AI and systems
+- Focus on core gameplay loop demonstration
 
-### Primary References
-- `regulus-tech-demo-missions.md` - Mission specifications
-- `regulus-game-systems.md` - Detailed gameplay systems
-- `streamlined-tdd.md` - Technical implementation guidance
+## 8. Estimated Development Timeline
+- Prototype Phase: 2-3 months
+- Initial Playable Demo: 4-6 months
+- Iteration and Polish: 2-3 months
 
-### Secondary References
-- `faction-overview.md` - Faction visual and narrative differentiation
-- `regulus-world-setting.md` - Environment and Unobtanium properties
-- `Regulus-design-document.md` - Core design principles
-
-
+## 9. Success Criteria
+- Demonstrates core Regulus gameplay concepts
+- Provides engaging 1-2 hour play experience
+- Serves as technical and design proof of concept
+- Highlights potential for full game development
