@@ -20,7 +20,7 @@ var shield_timer = 0.0
 # Node references
 @onready var camera = $Camera3D
 @onready var interaction_ray = $Camera3D/RayCast3D
-@onready var hud = $PlayerHUD
+@onready var hud = $CanvasLayer/PlayerHud
 
 # Get the gravity from the project settings
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -33,6 +33,9 @@ func _ready():
 	update_hud()
 
 func _unhandled_input(event):
+	if event is InputEventMouseMotion:
+		print("Mouse motion: ", event.relative)
+	
 	# Mouse look
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * mouse_sensitivity)
