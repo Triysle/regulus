@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://ca46hou0sffmq"]
+[gd_scene load_steps=4 format=3 uid="uid://ca46hou0sffmq"]
 
 [ext_resource type="Script" uid="uid://bpawcrwj1ma8x" path="res://scripts/player_controller.gd" id="1_p0vlq"]
+[ext_resource type="PackedScene" uid="uid://cdb1ej4l3jefo" path="res://scenes/PlayerHUD.tscn" id="2_v6fml"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_p0vlq"]
 radius = 0.4
@@ -17,3 +18,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, 0, -3)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHud" parent="CanvasLayer" instance=ExtResource("2_v6fml")]

@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bm00reg6jvj1u"]
+[gd_scene load_steps=4 format=3 uid="uid://bm00reg6jvj1u"]
 
 [ext_resource type="PackedScene" uid="uid://ca46hou0sffmq" path="res://scenes/Player.tscn" id="1_dojpo"]
+[ext_resource type="Script" uid="uid://588nf5gt8xjb" path="res://scenes/test_damage.gd" id="2_1fpmp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1fpmp"]
+albedo_color = Color(1, 0, 0, 1)
 
 [node name="TestLevel" type="Node3D"]
 
@@ -12,20 +16,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17007, 0)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
 size = Vector3(20, 1, 20)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
 transform = Transform3D(0.832863, 0, -0.553479, 0, 1, 0, 0.553479, 0, 0.832863, -4.65089, 0.287935, -4.63113)
+use_collision = true
 size = Vector3(4.46826, 1, 3.12695)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="."]
 transform = Transform3D(0.493335, 0.805691, -0.327846, -0.67103, 0.592337, 0.445933, 0.553479, 0, 0.832863, -6.66875, 0.230415, 6.6814)
+use_collision = true
 size = Vector3(4.46826, 2.08789, 1.02051)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.19589, 0.654541, -6)
+use_collision = true
 size = Vector3(1.91504, 2.30908, 1)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.837299, -0.546745, 0, 0.546745, 0.837299, 4.19589, 0.562064, 3.53837)
+use_collision = true
 size = Vector3(1.91504, 2.61731, 1)
+
+[node name="DamageObject" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.14353, 1.27879, -2.52885)
+use_collision = true
+material = SubResource("StandardMaterial3D_1fpmp")
+script = ExtResource("2_1fpmp")

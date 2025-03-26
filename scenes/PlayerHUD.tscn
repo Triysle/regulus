@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdb1ej4l3jefo"]
+[gd_scene load_steps=6 format=3 uid="uid://cdb1ej4l3jefo"]
 
 [ext_resource type="Script" uid="uid://6ijndr5d382b" path="res://scripts/player_hud.gd" id="1_0kcyj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0kcyj"]
+bg_color = Color(0, 0.568627, 1, 0.141176)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhx4l"]
+bg_color = Color(0, 0.768627, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fjqji"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fnqv5"]
+bg_color = Color(0, 1, 0, 1)
 
 [node name="PlayerHud" type="Control"]
 layout_mode = 3
@@ -25,4 +37,19 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 2
 alignment = 2
+
+[node name="ShieldBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_0kcyj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_uhx4l")
+show_percentage = false
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_fjqji")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fnqv5")
+show_percentage = false

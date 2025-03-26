@@ -7,33 +7,30 @@ extends CharacterBody3D
 @export var acceleration = 10.0
 @export var deceleration = 20.0
 
-# Defensive system variables
+# Defense system variables
 @export var max_shield = 100.0
-@export var max_armor = 100.0
 @export var max_health = 100.0
 @export var shield_regen_rate = 5.0  # Per second
 @export var shield_regen_delay = 3.0  # Seconds after damage
-@export var health_regen_rate = 1.0  # Per second
 
 var shield = max_shield
-var armor = max_armor
 var health = max_health
 var shield_timer = 0.0
 
-# Equipment variables
-var current_weapon = null
-var equipment = {}
-
-# Get the gravity from the project settings to be synced with RigidBody nodes
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-
-# Camera reference
+# Node references
 @onready var camera = $Camera3D
 @onready var interaction_ray = $Camera3D/RayCast3D
+@onready var hud = $PlayerHUD
+
+# Get the gravity from the project settings
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	# Capture mouse
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	# Initialize HUD
+	update_hud()
 
 func _unhandled_input(event):
 	# Mouse look
@@ -85,57 +82,27 @@ func _physics_process(delta):
 	
 	# Handle shield regeneration
 	process_shield_regen(delta)
+	
+	# Update HUD
+	update_hud()
 
-# Process damage with the three-tier defense system
-func take_damage(amount, damage_type = "kinetic"):
+# Process damage with shield-then-health system
+func take_damage(amount):
 	# Reset shield regeneration timer
 	shield_timer = 0.0
 	
-	var remaining_damage = amount
-	
-	# Apply damage type modifiers
-	# This would be expanded based on your specific damage types
-	var shield_modifier = 1.0
-	var armor_modifier = 1.0
-	var health_modifier = 1.0
-	
-	match damage_type:
-		"kinetic":
-			shield_modifier = 0.8
-			armor_modifier = 1.0
-			health_modifier = 1.2
-		"energy":
-			shield_modifier = 1.5
-			armor_modifier = 0.8
-			health_modifier = 0.9
-		"explosive":
-			shield_modifier = 1.0
-			armor_modifier = 1.5
-			health_modifier = 1.0
-	
 	# First apply to shield
 	if shield > 0:
-		var shield_damage = remaining_damage * shield_modifier
-		if shield >= shield_damage:
-			shield -= shield_damage
-			remaining_damage = 0
+		if shield >= amount:
+			shield -= amount
+			amount = 0
 		else:
-			remaining_damage -= shield / shield_modifier
+			amount -= shield
 			shield = 0
 	
-	# Then apply to armor
-	if remaining_damage > 0 and armor > 0:
-		var armor_damage = remaining_damage * armor_modifier
-		if armor >= armor_damage:
-			armor -= armor_damage
-			remaining_damage = 0
-		else:
-			remaining_damage -= armor / armor_modifier
-			armor = 0
-	
-	# Finally apply to health
-	if remaining_damage > 0:
-		health -= remaining_damage * health_modifier
+	# Then apply remaining damage to health
+	if amount > 0:
+		health -= amount
 		
 		# Check for death
 		if health <= 0:
@@ -150,15 +117,6 @@ func process_shield_regen(delta):
 	if shield_timer >= shield_regen_delay and shield < max_shield:
 		shield += shield_regen_rate * delta
 		shield = min(shield, max_shield)
-	
-	# Very small health regeneration
-	if health < max_health:
-		health += health_regen_rate * delta
-		health = min(health, max_health)
-
-func repair_armor(amount):
-	armor += amount
-	armor = min(armor, max_armor)
 
 func heal(amount):
 	health += amount
@@ -169,5 +127,8 @@ func die():
 	# Game over logic would go here
 	# For now, just reset health for demonstration
 	health = max_health
-	armor = max_armor
 	shield = max_shield
+
+func update_hud():
+	if hud:
+		hud.update_display(shield, max_shield, health, max_health)
