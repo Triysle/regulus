@@ -17,6 +17,11 @@ var shield = max_shield
 var health = max_health
 var shield_timer = 0.0
 
+# Resource system variables
+var inventory = {
+	"Unobtanium": 0
+}
+
 # Node references
 @onready var camera = $Camera3D
 @onready var interaction_ray = $Camera3D/RayCast3D
@@ -133,3 +138,21 @@ func die():
 func update_hud():
 	if hud:
 		hud.update_display(shield, max_shield, health, max_health)
+		update_resource_display()
+
+func collect_resource(resource_name: String, amount: int):
+	# Check if the resource exists in inventory
+	if inventory.has(resource_name):
+		inventory[resource_name] += amount
+	else:
+		# Add new resource type if it doesn't exist
+		inventory[resource_name] = amount
+	
+	print("Collected " + str(amount) + " " + resource_name + ". Total: " + str(inventory[resource_name]))
+	
+	# Update HUD (we'll add this method later)
+	update_resource_display()
+
+func update_resource_display():
+	if hud:
+		hud.update_resources(inventory)

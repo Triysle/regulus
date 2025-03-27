@@ -54,3 +54,17 @@ layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_fjqji")
 theme_override_styles/fill = SubResource("StyleBoxFlat_fnqv5")
 show_percentage = false
+
+[node name="ResourceContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+offset_right = 120.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ResourceLabel" type="Label" parent="ResourceContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "Unobtainium: 0"

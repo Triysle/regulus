@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://bk6cwu1l28all"]
+
+[ext_resource type="Script" uid="uid://devcvb3s1ldxt" path="res://scripts/resource_node.gd" id="1_8lfd6"]
+[ext_resource type="Material" uid="uid://cbkd2u3bqrgd6" path="res://assets/materials/resource_active.material" id="2_ehxo0"]
+[ext_resource type="Material" uid="uid://doeo0ar3w4cl6" path="res://assets/materials/resource_depleted.material" id="3_i7ahh"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4f6g1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ehxo0"]
+radius = 1.0
+
+[node name="ResourceNode" type="Node3D"]
+script = ExtResource("1_8lfd6")
+active_material = ExtResource("2_ehxo0")
+depleted_material = ExtResource("3_i7ahh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("SphereMesh_4f6g1")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("SphereShape3D_ehxo0")
+
+[node name="RespawnTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
