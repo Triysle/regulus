@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjhobubac06f"]
+[gd_scene load_steps=5 format=3 uid="uid://cjhobubac06f"]
 
 [ext_resource type="Script" uid="uid://defkyyae2l6r6" path="res://scripts/weapon_manager.gd" id="1_wl771"]
+[ext_resource type="ArrayMesh" uid="uid://bg7pg1jfge6yf" path="res://assets/models/AR_4_Cube_142.res" id="2_33cn1"]
+[ext_resource type="ArrayMesh" uid="uid://70l8nisw8ncm" path="res://assets/models/Pistol_1_Cube_074.res" id="3_j4msp"]
+[ext_resource type="ArrayMesh" uid="uid://diu3l2ea8cmj8" path="res://assets/models/Grenade_3_Cube_131.res" id="4_k57l6"]
 
 [node name="WeaponManager" type="Node3D"]
 script = ExtResource("1_wl771")
@@ -16,4 +19,20 @@ target_position = Vector3(0, 0, -100)
 
 [node name="WeaponModel" type="Node3D" parent="."]
 
-[node name="MuzzleFlash" type="CPUParticles3D" parent="."]
+[node name="KineticRifle" type="Node3D" parent="WeaponModel"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponModel/KineticRifle"]
+transform = Transform3D(-2.62268e-08, 0, 0.6, 0, 0.6, 0, -0.6, 0, -2.62268e-08, 0, 0, 0)
+mesh = ExtResource("2_33cn1")
+
+[node name="EnergyBlaster" type="Node3D" parent="WeaponModel"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponModel/EnergyBlaster"]
+transform = Transform3D(-2.62268e-08, 0, 0.6, 0, 0.6, 0, -0.6, 0, -2.62268e-08, 0, 0, 0)
+mesh = ExtResource("3_j4msp")
+
+[node name="ExplosiveLauncher" type="Node3D" parent="WeaponModel"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponModel/ExplosiveLauncher"]
+transform = Transform3D(-2.62268e-08, 0, 0.6, 0, 0.6, 0, -0.6, 0, -2.62268e-08, 0, 0, 0)
+mesh = ExtResource("4_k57l6")

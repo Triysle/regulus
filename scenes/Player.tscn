@@ -25,7 +25,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 target_position = Vector3(0, 0, -3)
 
 [node name="WeaponManager" parent="Camera3D" instance=ExtResource("2_3li8b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, -0.25, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, -0.424613, -0.404004)
 weapons = Array[ExtResource("3_cw2d6")]([ExtResource("4_khinc"), ExtResource("5_bruh7"), ExtResource("6_6eyey")])
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
