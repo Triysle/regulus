@@ -5,7 +5,7 @@ extends Control
 @onready var resource_label = $ResourceContainer/ResourceLabel
 
 func _ready():
-	pass
+	resource_label.text = "Unobtanium: 0"
 
 func update_display(shield, max_shield, health, max_health):
 	shield_bar.max_value = max_shield
@@ -15,7 +15,6 @@ func update_display(shield, max_shield, health, max_health):
 	health_bar.value = health
 
 func update_resources(inventory):
-	# Only showing Unobtanium for now
 	if inventory.has("Unobtanium"):
 		resource_label.text = "Unobtanium: " + str(inventory["Unobtanium"])
 	else:

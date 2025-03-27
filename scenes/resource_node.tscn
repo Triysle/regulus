@@ -24,5 +24,6 @@ mesh = SubResource("SphereMesh_4f6g1")
 shape = SubResource("SphereShape3D_ehxo0")
 
 [node name="RespawnTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
