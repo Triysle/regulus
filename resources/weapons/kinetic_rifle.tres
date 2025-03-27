@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://cwgk4qxikwdy0"]
+
+[ext_resource type="Script" uid="uid://blss4uosfyky8" path="res://scripts/weapon_data.gd" id="1_5wnb5"]
+
+[resource]
+script = ExtResource("1_5wnb5")
+name = "Kinetic Rifle"
+damage = 10.0
+fire_rate = 0.5
+range = 100.0
+ammo_capacity = 30
+reload_time = 1.5
+type = "kinetic"
+projectile_speed = 20.0
+automatic = false
+metadata/_custom_type_script = "uid://blss4uosfyky8"

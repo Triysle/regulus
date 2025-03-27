@@ -26,6 +26,7 @@ var inventory = {
 @onready var camera = $Camera3D
 @onready var interaction_ray = $Camera3D/RayCast3D
 @onready var hud = $CanvasLayer/PlayerHud
+@onready var weapon_manager = $Camera3D/WeaponManager
 
 # Get the gravity from the project settings
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -135,3 +136,17 @@ func collect_resource(resource_name: String, amount: int):
 func update_resource_display():
 	if hud:
 		hud.update_resources(inventory)
+
+func weapon_fired(weapon):
+	# Handle player response to weapon firing
+	# For example, apply recoil, play sound, etc.
+	print("Fired " + weapon.name)
+	
+	# You could add recoil to the camera here
+	# camera.rotation.x += 0.01  # simple recoil example
+
+func weapon_switched(weapon):
+	# Update HUD or other systems when weapon changes
+	print("Switched to " + weapon.name)
+	# if hud:
+	#     hud.update_weapon_display(weapon.name, current_ammo[weapon.name])
