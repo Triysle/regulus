@@ -36,11 +36,15 @@ func _ready():
 		weapon_manager.connect("weapon_switched", Callable(self, "weapon_switched"))
 
 func _unhandled_input(event):
+	# Toggle mouse capture with Escape key
 	if event.is_action_pressed("ui_cancel"):
-		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		toggle_mouse_capture()
+		get_viewport().set_input_as_handled()
+		return
+	
+	# Only process other inputs if mouse is captured
+	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+		return
 	
 	if event.is_action_pressed("interact") and interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
@@ -54,13 +58,28 @@ func _unhandled_input(event):
 		if collider.has_method("interact"):
 			collider.interact(self)
 
+func toggle_mouse_capture():
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 func _input(event):
+	# Only process mouse look if mouse is captured
+	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+		return
+	
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		camera.rotate_x(-event.relative.y * mouse_sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
 func _physics_process(delta):
+	# Only process movement if mouse is captured
+	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+		velocity = Vector3.ZERO
+		return
+	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
@@ -85,6 +104,7 @@ func _physics_process(delta):
 	
 	update_hud()
 
+# The rest of the methods remain the same as in the original script
 func take_damage(amount):
 	shield_timer = 0.0
 	

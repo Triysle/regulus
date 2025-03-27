@@ -37,6 +37,10 @@ func _ready():
 	reload_timer.connect("timeout", _on_reload_timer_timeout)
 
 func _process(delta):
+	# Check if mouse is not captured before processing weapon inputs
+	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+		return
+	
 	if Input.is_action_just_pressed("weapon_next"):
 		cycle_weapon(1)
 	elif Input.is_action_just_pressed("weapon_prev"):
@@ -80,9 +84,6 @@ func fire():
 	
 	if animation_player and animation_player.has_animation("fire"):
 		animation_player.play("fire")
-	
-	# if muzzle_flash:
-	# 	muzzle_flash.emitting = true
 	
 	if raycast.is_colliding():
 		var collider = raycast.get_collider()
