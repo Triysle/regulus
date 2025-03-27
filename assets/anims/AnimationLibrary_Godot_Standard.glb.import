@@ -36,7 +36,7 @@ _subresources={
 "animations": {
 "A_TPose": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/A_TPose.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -1835,7 +1835,7 @@ _subresources={
 },
 "Crouch_Fwd": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Crouch_Fwd.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -3634,7 +3634,7 @@ _subresources={
 },
 "Crouch_Idle": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Crouch_Idle.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -5433,7 +5433,7 @@ _subresources={
 },
 "Dance": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Dance.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -7232,7 +7232,7 @@ _subresources={
 },
 "Death01": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Death01.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -9031,7 +9031,7 @@ _subresources={
 },
 "Driving": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Driving.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -10830,7 +10830,7 @@ _subresources={
 },
 "Fixing_Kneeling": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Fixing_Kneeling.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -12629,7 +12629,7 @@ _subresources={
 },
 "Hit_Chest": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Hit_Chest.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -14428,7 +14428,7 @@ _subresources={
 },
 "Hit_Head": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Hit_Head.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -16227,7 +16227,7 @@ _subresources={
 },
 "Idle": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Idle.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -18026,7 +18026,7 @@ _subresources={
 },
 "Idle_Talking": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Idle_Talking.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -19825,7 +19825,7 @@ _subresources={
 },
 "Idle_Torch": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Idle_Torch.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -21624,7 +21624,7 @@ _subresources={
 },
 "Interact": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Interact.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -23423,7 +23423,7 @@ _subresources={
 },
 "Jog_Fwd": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Jog_Fwd.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -25222,7 +25222,7 @@ _subresources={
 },
 "Jump": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Jump.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -27021,7 +27021,7 @@ _subresources={
 },
 "Jump_Land": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Jump_Land.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -28820,7 +28820,7 @@ _subresources={
 },
 "Jump_Start": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Jump_Start.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -30619,7 +30619,7 @@ _subresources={
 },
 "PickUp_Table": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/PickUp_Table.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -32418,7 +32418,7 @@ _subresources={
 },
 "Pistol_Aim_Down": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Pistol_Aim_Down.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -34217,7 +34217,7 @@ _subresources={
 },
 "Pistol_Aim_Neutral": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Pistol_Aim_Neutral.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -36016,7 +36016,7 @@ _subresources={
 },
 "Pistol_Aim_Up": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Pistol_Aim_Up.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -37815,7 +37815,7 @@ _subresources={
 },
 "Pistol_Idle": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Pistol_Idle.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -39614,7 +39614,7 @@ _subresources={
 },
 "Pistol_Reload": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Pistol_Reload.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -41413,7 +41413,7 @@ _subresources={
 },
 "Pistol_Shoot": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Pistol_Shoot.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -43212,7 +43212,7 @@ _subresources={
 },
 "Punch_Cross": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Punch_Cross.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -45011,7 +45011,7 @@ _subresources={
 },
 "Punch_Enter": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Punch_Enter.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -46810,7 +46810,7 @@ _subresources={
 },
 "Punch_Jab": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Punch_Jab.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -48609,7 +48609,7 @@ _subresources={
 },
 "Push": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Push.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -50408,7 +50408,7 @@ _subresources={
 },
 "Roll": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Roll.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -52207,7 +52207,7 @@ _subresources={
 },
 "Roll_RM": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Roll_RM.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -54006,7 +54006,7 @@ _subresources={
 },
 "Sitting_Enter": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Sitting_Enter.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -55805,7 +55805,7 @@ _subresources={
 },
 "Sitting_Exit": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Sitting_Exit.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -57604,7 +57604,7 @@ _subresources={
 },
 "Sitting_Idle": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Sitting_Idle.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -59403,7 +59403,7 @@ _subresources={
 },
 "Sitting_Talking": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Sitting_Talking.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -61202,7 +61202,7 @@ _subresources={
 },
 "Spell_Simple_Enter": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Spell_Simple_Enter.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -63001,7 +63001,7 @@ _subresources={
 },
 "Spell_Simple_Exit": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Spell_Simple_Exit.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -64800,7 +64800,7 @@ _subresources={
 },
 "Spell_Simple_Idle": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Spell_Simple_Idle.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -66599,7 +66599,7 @@ _subresources={
 },
 "Spell_Simple_Shoot": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Spell_Simple_Shoot.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -68398,7 +68398,7 @@ _subresources={
 },
 "Sprint": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Sprint.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -70197,7 +70197,7 @@ _subresources={
 },
 "Swim_Fwd": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Swim_Fwd.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -71996,7 +71996,7 @@ _subresources={
 },
 "Swim_Idle": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Swim_Idle.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -73795,7 +73795,7 @@ _subresources={
 },
 "Sword_Attack": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Sword_Attack.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -75594,7 +75594,7 @@ _subresources={
 },
 "Sword_Attack_RM": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Sword_Attack_RM.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -77393,7 +77393,7 @@ _subresources={
 },
 "Sword_Idle": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Sword_Idle.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -79192,7 +79192,7 @@ _subresources={
 },
 "Walk": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Walk.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -80991,7 +80991,7 @@ _subresources={
 },
 "Walk_Formal": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": "",
+"save_to_file/keep_custom_tracks": true,
 "save_to_file/path": "res://assets/anims/Walk_Formal.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
