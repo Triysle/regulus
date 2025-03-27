@@ -32,3 +32,4 @@ weapons = Array[ExtResource("3_cw2d6")]([ExtResource("4_khinc"), ExtResource("5_
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PlayerHud" parent="CanvasLayer" instance=ExtResource("2_v6fml")]
+metadata/_edit_use_anchors_ = true

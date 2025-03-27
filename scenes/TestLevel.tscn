@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://bm00reg6jvj1u"]
 
-[ext_resource type="PackedScene" uid="uid://ca46hou0sffmq" path="res://scenes/Player.tscn" id="1_dojpo"]
 [ext_resource type="Script" uid="uid://588nf5gt8xjb" path="res://scripts/test_damage.gd" id="2_1fpmp"]
 [ext_resource type="PackedScene" uid="uid://bk6cwu1l28all" path="res://scenes/resource_node.tscn" id="3_df0lk"]
+[ext_resource type="PackedScene" uid="uid://bmm4cia8scasi" path="res://scenes/animated_player.tscn" id="3_i6x8u"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1fpmp"]
 albedo_color = Color(1, 0, 0, 1)
@@ -11,9 +11,6 @@ albedo_color = Color(1, 0, 0, 1)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.853551, 0.290455, -0.432536, 0, 0.830187, 0.557484, 0.52101, -0.475841, 0.708607, 0, 0, 0)
-
-[node name="Player" parent="." instance=ExtResource("1_dojpo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17007, 0)
 
 [node name="DamageObject" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.14353, 1.27879, -2.52885)
@@ -50,3 +47,5 @@ size = Vector3(1.91504, 2.30908, 1)
 transform = Transform3D(1, 0, 0, 0, 0.837299, -0.546745, 0, 0.546745, 0.837299, 4.19589, 0.562064, 3.53837)
 use_collision = true
 size = Vector3(1.91504, 2.61731, 1)
+
+[node name="AnimatedPlayer" parent="." instance=ExtResource("3_i6x8u")]
