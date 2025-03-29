@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://cayfx03ejm4pq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qt1vp"]
+radius = 0.4
+height = 1.8
+
+[node name="FpsPlayer" type="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_qt1vp")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -3)
+
+[node name="ArmsRig" type="Node3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, -0.3)
+
+[node name="Skeleton3D" type="Skeleton3D" parent="Camera3D/ArmsRig"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D/ArmsRig/Skeleton3D"]

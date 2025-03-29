@@ -1,6 +1,6 @@
 [gd_scene load_steps=62 format=3 uid="uid://17wrp1omld0m"]
 
-[ext_resource type="Script" uid="uid://d370i2c51b7dv" path="res://scenes/basic_player_controller.gd" id="1_h1y5s"]
+[ext_resource type="Script" uid="uid://d370i2c51b7dv" path="res://scripts/basic_player_controller.gd" id="1_h1y5s"]
 [ext_resource type="ArrayMesh" uid="uid://cygdicyq81xl" path="res://assets/models/humanoids/AnimationLibrary_Godot_Standard_Mannequin.res" id="1_jfj12"]
 [ext_resource type="Animation" uid="uid://q5sg6nfa2uq" path="res://assets/anims/A_TPose.res" id="2_h1y5s"]
 [ext_resource type="Animation" uid="uid://bqre28qlbgpre" path="res://assets/anims/Crouch_Fwd.res" id="3_on4sr"]
