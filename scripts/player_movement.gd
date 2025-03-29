@@ -13,8 +13,8 @@ signal landed
 @export var deceleration: float = 15.0
 
 # Jump parameters
-@export var jump_height: float = 4.5
-@export var crouch_jump_height: float = 3.0
+@export var jump_height: float = 1.5
+@export var crouch_jump_height: float = 1.5
 @export var jump_cooldown: float = 0.2
 
 # Crouch parameters
@@ -29,6 +29,8 @@ var is_sprinting: bool = false
 var is_walking: bool = false
 var is_crouching: bool = false
 var can_jump: bool = true
+var was_in_air: bool = false
+var just_jumped: bool = false
 
 # Physics constants
 const GRAVITY = 9.8
@@ -65,15 +67,31 @@ func process_movement(delta: float, input_dir: Vector2, third_person_mode: bool)
 		"is_on_floor": player.is_on_floor(),
 		"is_walking": is_walking,
 		"is_sprinting": is_sprinting,
-		"is_crouching": is_crouching
+		"is_crouching": is_crouching,
+		"was_in_air": was_in_air
 	}
+	
+	# Check if we've landed from being in the air
+	if was_in_air && player.is_on_floor():
+		emit_signal("landed", true)
+		
+		# If we jumped while crouched, try to stand up automatically
+		if just_jumped && is_crouching:
+			just_jumped = false  # Reset jump flag
+			
+			# Check if there's room to stand up
+			if can_stand_up():
+				is_crouching = false
+				_update_crouch_state(third_person_mode)
+				print("Standing up after jump landing")
+	
+	# Update air state for next frame
+	was_in_air = !player.is_on_floor()
 	
 	# Apply gravity
 	if !player.is_on_floor():
 		player.velocity.y -= GRAVITY * delta
 		emit_signal("landed", false)
-	elif state.get("was_in_air", false):
-		emit_signal("landed", true)
 	
 	# Calculate movement direction based on camera orientation
 	var direction = (player.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -117,7 +135,7 @@ func process_movement(delta: float, input_dir: Vector2, third_person_mode: bool)
 	state["is_walking"] = is_walking
 	state["is_sprinting"] = is_sprinting
 	state["is_crouching"] = is_crouching
-	state["was_in_air"] = !player.is_on_floor()
+	state["was_in_air"] = was_in_air
 	
 	return state
 
@@ -129,19 +147,37 @@ func jump():
 		# Emit signal for animation
 		emit_signal("jump_started")
 		
+		# Set the flag to indicate we've jumped
+		just_jumped = true
+		
 		# Determine jump height based on crouch state
 		var jump_velocity = sqrt(2 * GRAVITY * (crouch_jump_height if is_crouching else jump_height))
 		player.velocity.y = jump_velocity
 
 func toggle_crouch(third_person_mode: bool):
-	is_crouching = !is_crouching
-	_update_crouch_state(third_person_mode)
+	if is_crouching:
+		# Try to stand up
+		if can_stand_up():
+			is_crouching = false
+			_update_crouch_state(third_person_mode)
+	else:
+		is_crouching = true
+		_update_crouch_state(third_person_mode)
 
 func toggle_walk():
 	is_walking = !is_walking
 	# Can't sprint while walking
 	if is_walking:
 		is_sprinting = false
+
+func can_stand_up() -> bool:
+	# Check if there's enough room to stand up
+	var space_state = player.get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(player.global_position, player.global_position + Vector3.UP * standing_height)
+	query.exclude = [player]
+	var result = space_state.intersect_ray(query)
+	
+	return !result
 
 func _update_crouch_state(third_person_mode: bool):
 	var capsule = collision_shape.shape as CapsuleShape3D
@@ -162,18 +198,7 @@ func _update_crouch_state(third_person_mode: bool):
 			if camera.has_method("update_base_position"):
 				camera.update_base_position(Vector3(0, camera_crouching_height, 0))
 	else:
-		# Check if there's enough room to stand up
-		var space_state = player.get_world_3d().direct_space_state
-		var query = PhysicsRayQueryParameters3D.create(player.global_position, player.global_position + Vector3.UP * standing_height)
-		query.exclude = [player]
-		var result = space_state.intersect_ray(query)
-		
-		if result:
-			# Can't stand up, stay crouched
-			is_crouching = true
-			return
-			
-		# Return to normal height
+		# Return to normal height - we already checked if there's room in toggle_crouch or can_stand_up
 		capsule.height = standing_height
 		collision_shape.position.y = standing_height / 2
 		

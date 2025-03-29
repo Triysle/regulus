@@ -41,7 +41,7 @@ func _handle_head_bob(delta: float, player: Player):
 	# Only bob when moving on the ground
 	if player.is_on_floor() and (abs(player.velocity.x) > 0.1 or abs(player.velocity.z) > 0.1):
 		# Calculate speed as a percentage of sprinting speed
-		var speed_factor = player.velocity.length() / player.sprinting_speed
+		var speed_factor = player.velocity.length() / player.movement_handler.sprinting_speed
 		
 		# Increase bob time based on speed
 		bob_time += delta * bob_frequency * speed_factor
@@ -73,7 +73,7 @@ func _handle_head_bob(delta: float, player: Player):
 
 func _handle_fov_changes(delta: float, player: Player):
 	# Set target FOV based on player state
-	if player.is_sprinting and !is_third_person:
+	if player.movement_handler and player.movement_handler.is_sprinting and !is_third_person:
 		target_fov = base_fov * sprint_fov_multiplier
 	else:
 		target_fov = base_fov

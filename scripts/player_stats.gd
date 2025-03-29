@@ -19,9 +19,9 @@ signal player_died
 @export var stamina_recovery_delay: float = 1.5  # After fully depleted
 
 # Current states
-var health: float = max_health
-var shield: float = max_shield
-var stamina: float = max_stamina
+var health: float
+var shield: float
+var stamina: float
 
 var last_damage_time: float = 0.0
 var stamina_depleted_time: float = 0.0
@@ -33,7 +33,10 @@ func _ready():
 	shield = max_shield
 	stamina = max_stamina
 	
-	# Emit initial values
+	# Emit initial values after a short delay to ensure connections are established
+	call_deferred("_emit_initial_signals")
+
+func _emit_initial_signals():
 	emit_signal("health_changed", health, max_health)
 	emit_signal("shield_changed", shield, max_shield)
 	emit_signal("stamina_changed", stamina, max_stamina)
