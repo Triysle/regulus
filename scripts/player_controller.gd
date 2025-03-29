@@ -5,11 +5,6 @@ class_name Player
 # Mouse sensitivity
 @export var mouse_sensitivity: float = 0.003
 
-# Camera mode variables
-var third_person_mode: bool = false
-@onready var first_person_cam_pos = $Camera3D.position
-const THIRD_PERSON_DISTANCE = 3.0
-
 # Component references
 @onready var camera = $Camera3D
 @onready var collision_shape = $CollisionShape3D
@@ -18,7 +13,6 @@ const THIRD_PERSON_DISTANCE = 3.0
 
 # Components
 @onready var stats: PlayerStats = $PlayerStats
-@onready var animation_handler: PlayerAnimation = $PlayerAnimation
 @onready var movement_handler: PlayerMovement = $PlayerMovement
 @onready var interaction_handler: PlayerInteraction = $PlayerInteraction
 
@@ -37,20 +31,10 @@ func _ready():
 	movement_handler.initialize(self, camera, collision_shape, stats)
 	interaction_handler.initialize(self, camera)
 	
-	# Make sure AnimationTree exists before initializing
-	if has_node("AnimationTree"):
-		animation_handler.initialize($AnimationTree)
-	else:
-		print("ERROR: AnimationTree node not found!")
-	
 	# Initialize HUD with safety check
 	if hud and stats:
 		hud.update_display(stats.shield, stats.max_shield, stats.health, stats.max_health)
 		hud.update_resources(interaction_handler.inventory)
-	
-	# Hide the player mesh in first-person mode by default
-	if $Rig:
-		$Rig.visible = false
 
 func _input(event):
 	# Handle mouse movement for camera control
@@ -59,10 +43,6 @@ func _input(event):
 			rotate_y(-event.relative.x * mouse_sensitivity)
 			camera.rotate_x(-event.relative.y * mouse_sensitivity)
 			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
-			
-			# Update aim direction based on camera pitch
-			if animation_handler:
-				animation_handler.update_aim_direction(camera.rotation.x)
 		return
 	
 	# Only process input if mouse is captured
@@ -83,7 +63,7 @@ func _input(event):
 	
 	# Toggle crouch
 	if Input.is_action_just_pressed("crouch"):
-		movement_handler.toggle_crouch(third_person_mode)
+		movement_handler.toggle_crouch()
 	
 	# Toggle walk
 	if Input.is_action_just_pressed("walk"):
@@ -92,20 +72,13 @@ func _input(event):
 	# Jump
 	if Input.is_action_just_pressed("jump"):
 		movement_handler.jump()
-	
-	# Toggle camera mode with Backspace
-	if Input.is_action_just_pressed("toggle_camera"):
-		toggle_camera_mode()
 
 func _physics_process(delta):
 	# Get input direction
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	
 	# Process movement
-	var state = movement_handler.process_movement(delta, input_dir, third_person_mode)
-	
-	# Update animation
-	animation_handler.update_animation(state, delta)
+	movement_handler.process_movement(delta, input_dir)
 	
 	# Move the character
 	move_and_slide()
@@ -139,14 +112,6 @@ func _on_weapon_switched(weapon_data):
 	# Update HUD or handle weapon switch effects
 	print("Switched to weapon: " + weapon_data.name)
 
-func _on_jump_started():
-	if animation_handler:
-		animation_handler.start_jump_animation()
-
-func _on_landed(is_on_ground):
-	if animation_handler:
-		animation_handler.on_landed(is_on_ground)
-
 # Public methods that other scripts can call
 func take_damage(amount: float):
 	if stats:
@@ -161,29 +126,3 @@ func get_current_weapon():
 	if weapon_manager:
 		return weapon_manager.weapons[weapon_manager.current_weapon_index]
 	return null
-
-func toggle_camera_mode():
-	third_person_mode = !third_person_mode
-	
-	if third_person_mode:
-		# Switch to third-person - higher and slightly closer
-		camera.position = Vector3(0, 2.0, 2.5)
-		# Make player mesh visible in third-person
-		if $Rig:
-			$Rig.visible = true
-		# Rotate the camera to face forward
-		camera.rotation = Vector3(-0.2, 0, 0)  # Tilt down slightly
-	else:
-		# Switch back to first-person
-		camera.position = first_person_cam_pos
-		# Hide player mesh in first-person
-		if $Rig:
-			$Rig.visible = false
-	
-	# Update the camera controller
-	if camera.has_method("set_third_person_mode"):
-		camera.set_third_person_mode(third_person_mode)
-	
-	# Update the camera controller's reference position
-	if camera.has_method("update_base_position"):
-		camera.update_base_position(camera.position)

@@ -1,9 +1,6 @@
 extends Node
 class_name PlayerMovement
 
-signal jump_started
-signal landed
-
 # Movement parameters
 @export var walking_speed: float = 3.0
 @export var jogging_speed: float = 5.0
@@ -29,8 +26,6 @@ var is_sprinting: bool = false
 var is_walking: bool = false
 var is_crouching: bool = false
 var can_jump: bool = true
-var was_in_air: bool = false
-var just_jumped: bool = false
 
 # Physics constants
 const GRAVITY = 9.8
@@ -61,37 +56,18 @@ func initialize(player_node: CharacterBody3D, camera_node: Camera3D, collision_n
 		collision_shape.shape.height = standing_height
 		collision_shape.position.y = standing_height / 2
 
-func process_movement(delta: float, input_dir: Vector2, third_person_mode: bool) -> Dictionary:
+func process_movement(delta: float, input_dir: Vector2) -> Dictionary:
 	var state = {
 		"velocity": player.velocity,
 		"is_on_floor": player.is_on_floor(),
 		"is_walking": is_walking,
 		"is_sprinting": is_sprinting,
-		"is_crouching": is_crouching,
-		"was_in_air": was_in_air
+		"is_crouching": is_crouching
 	}
-	
-	# Check if we've landed from being in the air
-	if was_in_air && player.is_on_floor():
-		emit_signal("landed", true)
-		
-		# If we jumped while crouched, try to stand up automatically
-		if just_jumped && is_crouching:
-			just_jumped = false  # Reset jump flag
-			
-			# Check if there's room to stand up
-			if can_stand_up():
-				is_crouching = false
-				_update_crouch_state(third_person_mode)
-				print("Standing up after jump landing")
-	
-	# Update air state for next frame
-	was_in_air = !player.is_on_floor()
 	
 	# Apply gravity
 	if !player.is_on_floor():
 		player.velocity.y -= GRAVITY * delta
-		emit_signal("landed", false)
 	
 	# Calculate movement direction based on camera orientation
 	var direction = (player.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -130,12 +106,11 @@ func process_movement(delta: float, input_dir: Vector2, third_person_mode: bool)
 		player.velocity.x = lerp(player.velocity.x, 0.0, deceleration * delta)
 		player.velocity.z = lerp(player.velocity.z, 0.0, deceleration * delta)
 	
-	# Return updated state information for animation system
+	# Return updated state information
 	state["velocity"] = player.velocity
 	state["is_walking"] = is_walking
 	state["is_sprinting"] = is_sprinting
 	state["is_crouching"] = is_crouching
-	state["was_in_air"] = was_in_air
 	
 	return state
 
@@ -144,25 +119,19 @@ func jump():
 		can_jump = false
 		jump_timer.start()
 		
-		# Emit signal for animation
-		emit_signal("jump_started")
-		
-		# Set the flag to indicate we've jumped
-		just_jumped = true
-		
 		# Determine jump height based on crouch state
 		var jump_velocity = sqrt(2 * GRAVITY * (crouch_jump_height if is_crouching else jump_height))
 		player.velocity.y = jump_velocity
 
-func toggle_crouch(third_person_mode: bool):
+func toggle_crouch():
 	if is_crouching:
 		# Try to stand up
 		if can_stand_up():
 			is_crouching = false
-			_update_crouch_state(third_person_mode)
+			_update_crouch_state()
 	else:
 		is_crouching = true
-		_update_crouch_state(third_person_mode)
+		_update_crouch_state()
 
 func toggle_walk():
 	is_walking = !is_walking
@@ -179,7 +148,7 @@ func can_stand_up() -> bool:
 	
 	return !result
 
-func _update_crouch_state(third_person_mode: bool):
+func _update_crouch_state():
 	var capsule = collision_shape.shape as CapsuleShape3D
 	if !capsule:
 		return
@@ -189,27 +158,23 @@ func _update_crouch_state(third_person_mode: bool):
 		capsule.height = crouching_height
 		collision_shape.position.y = crouching_height / 2
 		
-		# Only adjust camera in first-person mode
-		if !third_person_mode:
-			# Lower camera position
-			camera.position.y = camera_crouching_height
-			
-			# Notify camera controller of position change
-			if camera.has_method("update_base_position"):
-				camera.update_base_position(Vector3(0, camera_crouching_height, 0))
+		# Lower camera position
+		camera.position.y = camera_crouching_height
+		
+		# Notify camera controller of position change
+		if camera.has_method("update_base_position"):
+			camera.update_base_position(Vector3(0, camera_crouching_height, 0))
 	else:
 		# Return to normal height - we already checked if there's room in toggle_crouch or can_stand_up
 		capsule.height = standing_height
 		collision_shape.position.y = standing_height / 2
 		
-		# Only adjust camera in first-person mode
-		if !third_person_mode:
-			# Reset camera position
-			camera.position.y = camera_standing_height
-			
-			# Notify camera controller of position change
-			if camera.has_method("update_base_position"):
-				camera.update_base_position(Vector3(0, camera_standing_height, 0))
+		# Reset camera position
+		camera.position.y = camera_standing_height
+		
+		# Notify camera controller of position change
+		if camera.has_method("update_base_position"):
+			camera.update_base_position(Vector3(0, camera_standing_height, 0))
 
 func _on_jump_timer_timeout():
 	can_jump = true
