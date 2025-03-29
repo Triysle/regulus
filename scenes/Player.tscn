@@ -1,20 +1,55 @@
 [gd_scene load_steps=13 format=3 uid="uid://d0amuar4s1s0g"]
 
-[ext_resource type="Script" uid="uid://dtouk87sdeipb" path="res://scripts/player_controller.gd" id="1_3li8b"]
+[ext_resource type="Script" uid="uid://cxwftcr1inxsf" path="res://scripts/player_controller.gd" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://cjhobubac06f" path="res://scenes/WeaponManager.tscn" id="2_mdl7e"]
-[ext_resource type="Script" uid="uid://d3hx8mbary8ew" path="res://scripts/camera_controller.gd" id="2_qu4a1"]
 [ext_resource type="Script" uid="uid://blss4uosfyky8" path="res://scripts/weapon_data.gd" id="4_d3wef"]
 [ext_resource type="Resource" uid="uid://bvctmj4tn6cd0" path="res://resources/weapons/energy_blaster.tres" id="5_o4126"]
 [ext_resource type="Resource" uid="uid://tnoqii0sum2i" path="res://resources/weapons/explosive_launcher.tres" id="6_lkdrv"]
 [ext_resource type="Resource" uid="uid://cwgk4qxikwdy0" path="res://resources/weapons/kinetic_rifle.tres" id="7_p7iby"]
 [ext_resource type="PackedScene" uid="uid://cdb1ej4l3jefo" path="res://scenes/PlayerHUD.tscn" id="49_priom"]
 [ext_resource type="Script" uid="uid://c86fqtl6vg3rm" path="res://scripts/player_stats.gd" id="52_axtmv"]
-[ext_resource type="Script" uid="uid://cd42tonmktdqh" path="res://scripts/player_movement.gd" id="54_pusvq"]
-[ext_resource type="Script" uid="uid://cq5r2hs5k1qhk" path="res://scripts/player_interaction.gd" id="55_qduiv"]
+[ext_resource type="Script" uid="uid://cvvt816riohwu" path="res://scripts/player_movement.gd" id="54_pusvq"]
+[ext_resource type="Script" uid="uid://b7pj0531nr5b3" path="res://scripts/player_interaction.gd" id="55_qduiv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3li8b"]
 radius = 0.4
 height = 1.8
+
+[sub_resource type="GDScript" id="GDScript_6eyey"]
+script/source = "extends Camera3D
+
+# FOV settings
+@export var base_fov: float = 75.0
+@export var sprint_fov_multiplier: float = 1.1
+@export var fov_change_speed: float = 4.0
+
+# Internal variables
+var target_fov: float = base_fov
+
+func _ready():
+	# Set initial FOV
+	fov = base_fov
+
+func _process(delta):
+	var player = get_parent() as Player
+	
+	if player:
+		_handle_fov_changes(delta, player)
+
+func _handle_fov_changes(delta: float, player: Player):
+	# Set target FOV based on player state
+	if player.movement_handler and player.movement_handler.is_sprinting:
+		target_fov = base_fov * sprint_fov_multiplier
+	else:
+		target_fov = base_fov
+	
+	# Smoothly transition FOV
+	fov = lerp(fov, target_fov, delta * fov_change_speed)
+
+# Call this when the camera position changes (e.g., when crouching/standing)
+func update_base_position(new_position: Vector3):
+	position = new_position
+"
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 floor_snap_length = 0.2
@@ -26,7 +61,7 @@ shape = SubResource("CapsuleShape3D_3li8b")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, -0.2)
-script = ExtResource("2_qu4a1")
+script = SubResource("GDScript_6eyey")
 
 [node name="WeaponManager" parent="Camera3D" instance=ExtResource("2_mdl7e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, -0.4, -0.5)
@@ -45,4 +80,15 @@ script = ExtResource("54_pusvq")
 [node name="PlayerInteraction" type="Node" parent="."]
 script = ExtResource("55_qduiv")
 
+[node name="InteractionTimer" type="Timer" parent="PlayerInteraction"]
+wait_time = 0.1
+autostart = true
+
+[connection signal="weapon_fired" from="Camera3D/WeaponManager" to="." method="_on_weapon_fired"]
+[connection signal="weapon_switched" from="Camera3D/WeaponManager" to="." method="_on_weapon_switched"]
+[connection signal="health_changed" from="PlayerStats" to="." method="_on_health_changed"]
+[connection signal="player_died" from="PlayerStats" to="." method="_on_player_died"]
+[connection signal="shield_changed" from="PlayerStats" to="." method="_on_shield_changed"]
+[connection signal="interaction_detected" from="PlayerInteraction" to="." method="_on_interaction_detected"]
+[connection signal="interaction_ended" from="PlayerInteraction" to="." method="_on_interaction_ended"]
 [connection signal="resource_collected" from="PlayerInteraction" to="." method="_on_resource_collected"]

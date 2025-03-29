@@ -11,7 +11,6 @@ extends Node3D
 
 # Node references
 @onready var mesh_instance = $MeshInstance3D
-@onready var collision_shape = $StaticBody3D/CollisionShape3D
 @onready var respawn_timer = $RespawnTimer
 
 var is_depleted: bool = false
@@ -20,15 +19,14 @@ func _ready():
 	respawn_timer.wait_time = respawn_time
 	respawn_timer.one_shot = true
 	
-	if mesh_instance and active_material:
-		mesh_instance.material_override = active_material
+	# Set initial material
+	mesh_instance.material_override = active_material
 		
 	# Connect the respawn timer timeout signal
-	if !respawn_timer.is_connected("timeout", _on_respawn_timer_timeout):
-		respawn_timer.connect("timeout", _on_respawn_timer_timeout)
+	respawn_timer.timeout.connect(_on_respawn_timer_timeout)
 
 # Called when player interacts with this node via raycast
-func interact(player):
+func interact(player) -> bool:
 	if is_depleted:
 		print("Resource is depleted")
 		return false
@@ -48,14 +46,9 @@ func get_interaction_text() -> String:
 
 func deplete():
 	is_depleted = true
-	
-	if mesh_instance and depleted_material:
-		mesh_instance.material_override = depleted_material
-	
+	mesh_instance.material_override = depleted_material
 	respawn_timer.start()
 
 func _on_respawn_timer_timeout():
 	is_depleted = false
-	
-	if mesh_instance and active_material:
-		mesh_instance.material_override = active_material
+	mesh_instance.material_override = active_material

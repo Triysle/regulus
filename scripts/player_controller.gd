@@ -10,47 +10,24 @@ class_name Player
 @onready var collision_shape = $CollisionShape3D
 @onready var weapon_manager = $Camera3D/WeaponManager
 @onready var hud = $CanvasLayer/PlayerHud
-
-# Components
-@onready var stats: PlayerStats = $PlayerStats
-@onready var movement_handler: PlayerMovement = $PlayerMovement
-@onready var interaction_handler: PlayerInteraction = $PlayerInteraction
+@onready var stats = $PlayerStats
+@onready var movement_handler = $PlayerMovement
+@onready var interaction_handler = $PlayerInteraction
 
 func _ready():
 	# Lock mouse cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	# Connect weapon manager signals (only if not already connected)
-	if weapon_manager:
-		if !weapon_manager.weapon_fired.is_connected(_on_weapon_fired):
-			weapon_manager.weapon_fired.connect(_on_weapon_fired)
-		if !weapon_manager.weapon_switched.is_connected(_on_weapon_switched):
-			weapon_manager.weapon_switched.connect(_on_weapon_switched)
-	
-	# Connect stat signals
-	if stats:
-		if !stats.health_changed.is_connected(_on_health_changed):
-			stats.health_changed.connect(_on_health_changed)
-		if !stats.shield_changed.is_connected(_on_shield_changed):
-			stats.shield_changed.connect(_on_shield_changed)
-		if !stats.player_died.is_connected(_on_player_died):
-			stats.player_died.connect(_on_player_died)
-	
-	# Connect interaction signals
-	if interaction_handler:
-		if !interaction_handler.interaction_detected.is_connected(_on_interaction_detected):
-			interaction_handler.interaction_detected.connect(_on_interaction_detected)
-		if !interaction_handler.interaction_ended.is_connected(_on_interaction_ended):
-			interaction_handler.interaction_ended.connect(_on_interaction_ended)
-	
 	# Initialize component references
 	movement_handler.initialize(self, camera, collision_shape, stats)
 	interaction_handler.initialize(self, camera)
 	
-	# Initialize HUD with safety check
+	# Initialize HUD
 	if hud and stats:
 		hud.update_display(stats.shield, stats.max_shield, stats.health, stats.max_health)
 		hud.update_resources(interaction_handler.inventory)
+	
+	# Note: No signal connections here - they're connected in the editor
 
 func _input(event):
 	# Handle mouse movement for camera control
@@ -100,39 +77,37 @@ func _physics_process(delta):
 	move_and_slide()
 
 # Event handlers for stats
-func _on_health_changed(current, maximum):
-	if hud and stats:
+func _on_health_changed(_current, _maximum):
+	# Add a safety check to prevent accessing properties on null objects
+	if stats != null and hud != null:
 		hud.update_display(stats.shield, stats.max_shield, stats.health, stats.max_health)
 
-func _on_shield_changed(current, maximum):
-	if hud and stats:
+func _on_shield_changed(_current, _maximum):
+	# Add a safety check to prevent accessing properties on null objects
+	if stats != null and hud != null:
 		hud.update_display(stats.shield, stats.max_shield, stats.health, stats.max_health)
 
 func _on_player_died():
 	# Handle player death
 	print("Player died!")
-	if stats:
-		stats.reset()
+	stats.reset()
 	global_position = Vector3(0, 2, 0)  # Reset position
 
 # Event handlers for interaction
-func _on_interaction_detected(interactable, action_text):
-	if hud:
-		hud.show_interaction_prompt(action_text)
+func _on_interaction_detected(_interactable, action_text):
+	hud.show_interaction_prompt(action_text)
 
 func _on_interaction_ended():
-	if hud:
-		hud.hide_interaction_prompt()
+	hud.hide_interaction_prompt()
 
 func _on_resource_collected(resource_name, amount):
 	print("Collected " + str(amount) + " " + resource_name)
-	if hud and interaction_handler:
-		hud.update_resources(interaction_handler.inventory)
+	hud.update_resources(interaction_handler.inventory)
 
 # Event handlers for weapons
 func _on_weapon_fired(weapon_data):
 	# Handle weapon recoil, sfx, etc.
-	print("Fired weapon: " + weapon_data.name)
+	print("Player controller received weapon fired: " + weapon_data.name)
 
 func _on_weapon_switched(weapon_data):
 	# Update HUD or handle weapon switch effects
@@ -140,15 +115,10 @@ func _on_weapon_switched(weapon_data):
 
 # Public methods that other scripts can call
 func take_damage(amount: float):
-	if stats:
-		stats.take_damage(amount)
+	stats.take_damage(amount)
 
 func collect_resource(resource_name: String, amount: int):
-	if interaction_handler:
-		return interaction_handler.collect_resource(resource_name, amount)
-	return 0
+	return interaction_handler.collect_resource(resource_name, amount)
 
 func get_current_weapon():
-	if weapon_manager:
-		return weapon_manager.weapons[weapon_manager.current_weapon_index]
-	return null
+	return weapon_manager.weapons[weapon_manager.current_weapon_index]

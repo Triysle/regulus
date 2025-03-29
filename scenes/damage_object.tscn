@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cbcvovk0dyots"]
 
 [ext_resource type="Texture2D" uid="uid://c3mym286evt5h" path="res://addons/kenney_prototype_textures/red/texture_06.png" id="1_c3jyh"]
-[ext_resource type="Script" uid="uid://d4sevdkvtpkw" path="res://scenes/damage_object.gd" id="1_t4ja3"]
+[ext_resource type="Script" uid="uid://d4sevdkvtpkw" path="res://scripts/damage_object.gd" id="1_t4ja3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4ja3"]
 albedo_texture = ExtResource("1_c3jyh")

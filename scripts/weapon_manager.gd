@@ -10,7 +10,6 @@ signal weapon_switched(weapon_data)
 @onready var reload_timer = $ReloadTimer
 @onready var raycast = $RayCast3D
 @onready var animation_player = $AnimationPlayer
-@onready var weapon_model = $WeaponModel
 @onready var weapon_models = {
 	"Kinetic Rifle": $WeaponModel/KineticRifle,
 	"Energy Blaster": $WeaponModel/EnergyBlaster,
@@ -24,9 +23,6 @@ func _ready():
 	for weapon in weapons:
 		current_ammo[weapon.name] = weapon.ammo_capacity
 	
-	cooldown_timer.one_shot = true
-	reload_timer.one_shot = true
-	
 	# Hide all weapons initially
 	for model in weapon_models.values():
 		model.visible = false
@@ -34,9 +30,9 @@ func _ready():
 	if weapons.size() > 0:
 		switch_to_weapon(0)
 	
-	reload_timer.connect("timeout", _on_reload_timer_timeout)
+	reload_timer.timeout.connect(_on_reload_timer_timeout)
 
-func _process(delta):
+func _process(_delta):
 	# Check if mouse is not captured before processing weapon inputs
 	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
 		return
@@ -59,7 +55,7 @@ func _process(delta):
 			if Input.is_action_just_pressed("fire") and can_fire():
 				fire()
 
-func can_fire():
+func can_fire() -> bool:
 	if weapons.size() == 0:
 		return false
 	
@@ -88,15 +84,17 @@ func fire():
 	if raycast.is_colliding():
 		var collider = raycast.get_collider()
 		
-		if collider is CollisionShape3D:
-			collider = collider.get_parent()
-		
-		if collider is Area3D:
+		# Get the parent object if we hit a component
+		if collider is CollisionShape3D or collider is Area3D:
 			collider = collider.get_parent()
 		
 		if collider.has_method("take_damage"):
 			collider.take_damage(current_weapon.damage)
 	
+	# Print debug
+	print("Fired weapon: " + current_weapon.name)
+	
+	# Emit signal last to ensure local processing completes
 	emit_signal("weapon_fired", current_weapon)
 
 func start_reload():
@@ -158,4 +156,4 @@ func update_weapon_display():
 	if weapon_models.has(current_weapon.name):
 		weapon_models[current_weapon.name].visible = true
 	
-	raycast.target_position = Vector3(0, 0, -current_weapon.range)
+	raycast.target_position = Vector3(0, 0, -current_weapon.attack_range)

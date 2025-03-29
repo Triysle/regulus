@@ -12,22 +12,23 @@ signal interaction_ended()
 # References
 var player: CharacterBody3D
 var camera: Camera3D
-var interaction_timer: Timer
+@onready var interaction_timer = $InteractionTimer
 
 # Interactable tracking
 var current_interactable = null
-var last_interaction_result = null
 
 # Inventory
 var inventory: Dictionary = {"Unobtanium": 0}
 
 func _ready():
-	# Create timer for periodic interaction checks
-	interaction_timer = Timer.new()
-	interaction_timer.wait_time = interaction_check_frequency
-	interaction_timer.autostart = true
-	interaction_timer.one_shot = false
-	add_child(interaction_timer)
+	# Using an onready timer assumes you've added this as a node in the editor
+	if !interaction_timer:
+		interaction_timer = Timer.new()
+		interaction_timer.name = "InteractionTimer"
+		interaction_timer.wait_time = interaction_check_frequency
+		interaction_timer.autostart = true
+		add_child(interaction_timer)
+	
 	interaction_timer.timeout.connect(_on_interaction_check)
 
 func initialize(player_node: CharacterBody3D, camera_node: Camera3D):
@@ -35,10 +36,9 @@ func initialize(player_node: CharacterBody3D, camera_node: Camera3D):
 	camera = camera_node
 
 func _on_interaction_check():
-	# Regular check for interactable objects in front of the player
 	check_for_interactable()
 
-func check_for_interactable():
+func check_for_interactable() -> bool:
 	# Cast a ray to detect interactable objects
 	var space_state = player.get_world_3d().direct_space_state
 	var cam = camera.global_transform
@@ -47,7 +47,7 @@ func check_for_interactable():
 	
 	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	query.exclude = [player]
-	query.collide_with_areas = false  # We're now using StaticBody3D, not Area3D
+	query.collide_with_areas = false
 	query.collide_with_bodies = true
 	var result = space_state.intersect_ray(query)
 	
@@ -93,18 +93,17 @@ func check_for_interactable():
 		
 		return false
 
-func interact():
+func interact() -> bool:
 	# First update our interaction check
-	last_interaction_result = check_for_interactable()
+	check_for_interactable()
 	
 	# If we have an interactable, interact with it
 	if current_interactable and current_interactable.has_method("interact"):
-		current_interactable.interact(player)
-		return true
+		return current_interactable.interact(player)
 	
 	return false
 
-func collect_resource(resource_name: String, amount: int):
+func collect_resource(resource_name: String, amount: int) -> int:
 	if inventory.has(resource_name):
 		inventory[resource_name] += amount
 	else:

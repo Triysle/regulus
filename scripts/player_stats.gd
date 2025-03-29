@@ -28,22 +28,12 @@ var stamina_depleted_time: float = 0.0
 var can_sprint: bool = true
 
 func _ready():
-	# Initialize to max values
-	health = max_health
-	shield = max_shield
-	stamina = max_stamina
-	
-	# Emit initial values after a short delay to ensure connections are established
-	call_deferred("_emit_initial_signals")
-
-func _emit_initial_signals():
-	emit_signal("health_changed", health, max_health)
-	emit_signal("shield_changed", shield, max_shield)
-	emit_signal("stamina_changed", stamina, max_stamina)
+	reset()
 
 func _process(delta):
-	# Shield regeneration
 	var current_time = Time.get_ticks_msec() / 1000.0
+	
+	# Shield regeneration
 	if current_time - last_damage_time > shield_regen_delay:
 		set_shield(min(shield + shield_regen_rate * delta, max_shield))
 	
