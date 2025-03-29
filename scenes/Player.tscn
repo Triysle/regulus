@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://17wrp1omld0m"]
+[gd_scene load_steps=75 format=3 uid="uid://17wrp1omld0m"]
 
 [ext_resource type="Script" uid="uid://d370i2c51b7dv" path="res://scripts/player.gd" id="1_h1y5s"]
 [ext_resource type="ArrayMesh" uid="uid://cygdicyq81xl" path="res://assets/models/humanoids/AnimationLibrary_Godot_Standard_Mannequin.res" id="1_jfj12"]
@@ -48,6 +48,7 @@
 [ext_resource type="Animation" uid="uid://wnbbekrjxub6" path="res://assets/anims/Sword_Idle.res" id="45_xrpqf"]
 [ext_resource type="Animation" uid="uid://do50rtvjgrnuo" path="res://assets/anims/Walk.res" id="46_f61ws"]
 [ext_resource type="Animation" uid="uid://vvvqmv63wl75" path="res://assets/anims/Walk_Formal.res" id="47_rnl5t"]
+[ext_resource type="PackedScene" uid="uid://cdb1ej4l3jefo" path="res://scenes/PlayerHUD.tscn" id="49_priom"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_egbeq"]
 radius = 0.2
@@ -269,6 +270,9 @@ _data = {
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h1y5s"]
 animation = &"Idle"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lt3gi"]
+animation = &"Jog_Fwd"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_on4sr"]
 animation = &"Jump"
 
@@ -277,6 +281,9 @@ animation = &"Jump_Land"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_priom"]
 animation = &"Jump_Start"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_akpgi"]
+animation = &"Sprint"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1ffhy"]
 animation = &"Walk"
@@ -305,20 +312,42 @@ xfade_time = 0.3
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7odld"]
 xfade_time = 0.3
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_axtmv"]
+xfade_time = 0.3
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6x32p"]
+xfade_time = 0.3
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pusvq"]
+xfade_time = 0.3
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qduiv"]
+xfade_time = 0.3
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7yj0e"]
+xfade_time = 0.3
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c0jld"]
+xfade_time = 0.3
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_74fme"]
-states/End/position = Vector2(700, 147)
+states/End/position = Vector2(880, 147)
 states/Idle/node = SubResource("AnimationNodeAnimation_h1y5s")
 states/Idle/position = Vector2(252, 147)
+states/Jog_Fwd/node = SubResource("AnimationNodeAnimation_lt3gi")
+states/Jog_Fwd/position = Vector2(634, 147)
 states/Jump/node = SubResource("AnimationNodeAnimation_on4sr")
 states/Jump/position = Vector2(395, 27)
 states/Jump_Land/node = SubResource("AnimationNodeAnimation_8nyu3")
 states/Jump_Land/position = Vector2(395, 99)
 states/Jump_Start/node = SubResource("AnimationNodeAnimation_priom")
 states/Jump_Start/position = Vector2(395, -57)
+states/Sprint/node = SubResource("AnimationNodeAnimation_akpgi")
+states/Sprint/position = Vector2(760, 147)
 states/Start/position = Vector2(98, 147)
 states/Walk/node = SubResource("AnimationNodeAnimation_1ffhy")
-states/Walk/position = Vector2(536, 147)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_6r0fr"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_o4rd8"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_b0wpt"), "Idle", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_lt3gi"), "Walk", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_akpgi"), "Jump_Start", "Jump", SubResource("AnimationNodeStateMachineTransition_kumhx"), "Jump", "Jump_Land", SubResource("AnimationNodeStateMachineTransition_100hb"), "Jump_Land", "Idle", SubResource("AnimationNodeStateMachineTransition_7odld")]
+states/Walk/position = Vector2(517, 147)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_6r0fr"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_o4rd8"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_b0wpt"), "Idle", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_lt3gi"), "Walk", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_akpgi"), "Jump_Start", "Jump", SubResource("AnimationNodeStateMachineTransition_kumhx"), "Jump", "Jump_Land", SubResource("AnimationNodeStateMachineTransition_100hb"), "Jump_Land", "Idle", SubResource("AnimationNodeStateMachineTransition_7odld"), "Walk", "Jog_Fwd", SubResource("AnimationNodeStateMachineTransition_axtmv"), "Jog_Fwd", "Sprint", SubResource("AnimationNodeStateMachineTransition_6x32p"), "Sprint", "Jog_Fwd", SubResource("AnimationNodeStateMachineTransition_pusvq"), "Jog_Fwd", "Walk", SubResource("AnimationNodeStateMachineTransition_qduiv"), "Jog_Fwd", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_7yj0e"), "Sprint", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_c0jld")]
 graph_offset = Vector2(-140, -97)
 
 [node name="BasicPlayerController" type="CharacterBody3D"]
@@ -721,3 +750,7 @@ libraries = {
 root_node = NodePath("../..")
 tree_root = SubResource("AnimationNodeStateMachine_74fme")
 anim_player = NodePath("..")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHud" parent="CanvasLayer" instance=ExtResource("49_priom")]
