@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbcvovk0dyots"]
+
+[ext_resource type="Texture2D" uid="uid://c3mym286evt5h" path="res://addons/kenney_prototype_textures/red/texture_06.png" id="1_c3jyh"]
+[ext_resource type="Script" uid="uid://d4sevdkvtpkw" path="res://scenes/damage_object.gd" id="1_t4ja3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4ja3"]
+albedo_texture = ExtResource("1_c3jyh")
+uv1_triplanar = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_hmg5h"]
+material = SubResource("StandardMaterial3D_t4ja3")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_c3jyh"]
+
+[node name="DamageObject" type="Node3D"]
+script = ExtResource("1_t4ja3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_hmg5h")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("SphereShape3D_c3jyh")

@@ -27,6 +27,22 @@ func _ready():
 		if !weapon_manager.weapon_switched.is_connected(_on_weapon_switched):
 			weapon_manager.weapon_switched.connect(_on_weapon_switched)
 	
+	# Connect stat signals
+	if stats:
+		if !stats.health_changed.is_connected(_on_health_changed):
+			stats.health_changed.connect(_on_health_changed)
+		if !stats.shield_changed.is_connected(_on_shield_changed):
+			stats.shield_changed.connect(_on_shield_changed)
+		if !stats.player_died.is_connected(_on_player_died):
+			stats.player_died.connect(_on_player_died)
+	
+	# Connect interaction signals
+	if interaction_handler:
+		if !interaction_handler.interaction_detected.is_connected(_on_interaction_detected):
+			interaction_handler.interaction_detected.connect(_on_interaction_detected)
+		if !interaction_handler.interaction_ended.is_connected(_on_interaction_ended):
+			interaction_handler.interaction_ended.connect(_on_interaction_ended)
+	
 	# Initialize component references
 	movement_handler.initialize(self, camera, collision_shape, stats)
 	interaction_handler.initialize(self, camera)
@@ -83,7 +99,7 @@ func _physics_process(delta):
 	# Move the character
 	move_and_slide()
 
-# Event handlers
+# Event handlers for stats
 func _on_health_changed(current, maximum):
 	if hud and stats:
 		hud.update_display(stats.shield, stats.max_shield, stats.health, stats.max_health)
@@ -99,11 +115,21 @@ func _on_player_died():
 		stats.reset()
 	global_position = Vector3(0, 2, 0)  # Reset position
 
+# Event handlers for interaction
+func _on_interaction_detected(interactable, action_text):
+	if hud:
+		hud.show_interaction_prompt(action_text)
+
+func _on_interaction_ended():
+	if hud:
+		hud.hide_interaction_prompt()
+
 func _on_resource_collected(resource_name, amount):
 	print("Collected " + str(amount) + " " + resource_name)
 	if hud and interaction_handler:
 		hud.update_resources(interaction_handler.inventory)
 
+# Event handlers for weapons
 func _on_weapon_fired(weapon_data):
 	# Handle weapon recoil, sfx, etc.
 	print("Fired weapon: " + weapon_data.name)

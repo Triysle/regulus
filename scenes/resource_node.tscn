@@ -7,7 +7,6 @@
 [sub_resource type="SphereMesh" id="SphereMesh_4f6g1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ehxo0"]
-radius = 1.0
 
 [node name="ResourceNode" type="Node3D"]
 script = ExtResource("1_8lfd6")
@@ -18,9 +17,10 @@ depleted_material = ExtResource("3_i7ahh")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("SphereMesh_4f6g1")
 
-[node name="InteractionArea" type="Area3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("SphereShape3D_ehxo0")
 
 [node name="RespawnTimer" type="Timer" parent="."]

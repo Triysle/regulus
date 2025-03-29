@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://dc1jk5m00smam"]
+
+[sub_resource type="GDScript" id="GDScript_c2mc6"]
+script/source = "extends Control
+
+@onready var prompt_label = $PromptLabel
+
+var is_visible = false
+var current_text = \"\"
+
+func _ready():
+	# Initially hide the prompt
+	hide()
+
+func show_prompt(action_text: String):
+	current_text = \"Press [E] to \" + action_text
+	prompt_label.text = current_text
+	
+	if !is_visible:
+		is_visible = true
+		show()
+
+func hide_prompt():
+	if is_visible:
+		is_visible = false
+		hide()
+
+func update_prompt(action_text: String):
+	if action_text != \"\":
+		show_prompt(action_text)
+	else:
+		hide_prompt()
+"
+
+[node name="InteractionPrompt" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_c2mc6")
+
+[node name="PromptLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 70.0
+offset_right = 20.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
