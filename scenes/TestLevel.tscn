@@ -49,21 +49,4 @@ use_collision = true
 size = Vector3(1.91504, 2.61731, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_i6x8u")]
-walking_speed = 3.0
-jogging_speed = 5.0
-sprinting_speed = 8.0
-crouching_speed = 2.0
-acceleration = 10.0
-deceleration = 15.0
-jump_height = 4.5
-crouch_jump_height = 3.0
-jump_cooldown = 0.2
 mouse_sensitivity = 0.003
-max_health = 100.0
-max_shield = 100.0
-shield_regen_rate = 5.0
-shield_regen_delay = 3.0
-max_stamina = 100.0
-stamina_regen_rate = 10.0
-stamina_drain_rate = 15.0
-stamina_recovery_delay = 1.5

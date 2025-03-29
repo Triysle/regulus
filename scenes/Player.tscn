@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=3 uid="uid://d0amuar4s1s0g"]
+[gd_scene load_steps=93 format=3 uid="uid://d0amuar4s1s0g"]
 
 [ext_resource type="Script" uid="uid://dtouk87sdeipb" path="res://scripts/player_controller.gd" id="1_3li8b"]
 [ext_resource type="ArrayMesh" uid="uid://cygdicyq81xl" path="res://assets/models/humanoids/AnimationLibrary_Godot_Standard_Mannequin.res" id="1_jfj12"]
@@ -51,6 +51,10 @@
 [ext_resource type="Animation" uid="uid://do50rtvjgrnuo" path="res://assets/anims/Walk.res" id="46_f61ws"]
 [ext_resource type="Animation" uid="uid://vvvqmv63wl75" path="res://assets/anims/Walk_Formal.res" id="47_rnl5t"]
 [ext_resource type="PackedScene" uid="uid://cdb1ej4l3jefo" path="res://scenes/PlayerHUD.tscn" id="49_priom"]
+[ext_resource type="Script" uid="uid://c86fqtl6vg3rm" path="res://scripts/player_stats.gd" id="52_axtmv"]
+[ext_resource type="Script" uid="uid://cbfvjt0yoqd8a" path="res://scripts/player_animation.gd" id="53_6x32p"]
+[ext_resource type="Script" uid="uid://cd42tonmktdqh" path="res://scripts/player_movement.gd" id="54_pusvq"]
+[ext_resource type="Script" uid="uid://cq5r2hs5k1qhk" path="res://scripts/player_interaction.gd" id="55_qduiv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3li8b"]
 radius = 0.4
@@ -840,3 +844,22 @@ libraries = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_akpgi")
 anim_player = NodePath("../AnimationPlayer")
+
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource("52_axtmv")
+
+[node name="PlayerAnimation" type="Node" parent="."]
+script = ExtResource("53_6x32p")
+
+[node name="PlayerMovement" type="Node" parent="."]
+script = ExtResource("54_pusvq")
+
+[node name="PlayerInteraction" type="Node" parent="."]
+script = ExtResource("55_qduiv")
+
+[connection signal="health_changed" from="PlayerStats" to="." method="_on_health_changed"]
+[connection signal="player_died" from="PlayerStats" to="." method="_on_player_died"]
+[connection signal="shield_changed" from="PlayerStats" to="." method="_on_shield_changed"]
+[connection signal="jump_started" from="PlayerMovement" to="." method="_on_jump_started"]
+[connection signal="landed" from="PlayerMovement" to="." method="_on_landed"]
+[connection signal="resource_collected" from="PlayerInteraction" to="." method="_on_resource_collected"]
