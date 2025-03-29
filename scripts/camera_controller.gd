@@ -19,6 +19,7 @@ extends Camera3D
 var bob_time: float = 0.0
 var initial_position: Vector3
 var target_fov: float = base_fov
+var is_third_person: bool = false
 
 func _ready():
 	initial_position = position
@@ -27,7 +28,10 @@ func _process(delta):
 	var player = get_parent() as Player
 	
 	if player:
-		_handle_head_bob(delta, player)
+		# Skip head bob in third-person mode
+		if !is_third_person:
+			_handle_head_bob(delta, player)
+			
 		_handle_fov_changes(delta, player)
 
 func _handle_head_bob(delta: float, player: Player):
@@ -69,7 +73,7 @@ func _handle_head_bob(delta: float, player: Player):
 
 func _handle_fov_changes(delta: float, player: Player):
 	# Set target FOV based on player state
-	if player.is_sprinting:
+	if player.is_sprinting and !is_third_person:
 		target_fov = base_fov * sprint_fov_multiplier
 	else:
 		target_fov = base_fov
@@ -81,3 +85,11 @@ func _handle_fov_changes(delta: float, player: Player):
 func update_base_position(new_position: Vector3):
 	initial_position = new_position
 	position = new_position
+
+# Call this to toggle between first and third person mode
+func set_third_person_mode(enabled: bool):
+	is_third_person = enabled
+	
+	if is_third_person:
+		# Ensure head bob doesn't interfere with the third-person camera
+		bob_time = 0

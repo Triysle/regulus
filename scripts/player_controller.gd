@@ -49,12 +49,20 @@ var last_damage_time: float = 0.0
 var stamina_depleted_time: float = 0.0
 var can_jump: bool = true
 var inventory: Dictionary = {"Unobtanium": 0}
+var was_in_air: bool = false
+
+# Camera mode variables
+var third_person_mode = false
+@onready var first_person_cam_pos = $Camera3D.position
+const THIRD_PERSON_DISTANCE = 3.0
 
 # Node references
 @onready var camera = $Camera3D
 @onready var collision_shape = $CollisionShape3D
 @onready var weapon_manager = $Camera3D/WeaponManager
 @onready var hud = $CanvasLayer/PlayerHud
+@onready var animation_tree = $AnimationTree
+@onready var state_machine = animation_tree.get("parameters/playback")
 
 # Jump cooldown timer
 var jump_timer: Timer
@@ -86,6 +94,10 @@ func _ready():
 	if collision_shape and collision_shape.shape is CapsuleShape3D:
 		collision_shape.shape.height = standing_height
 		collision_shape.position.y = standing_height / 2
+		
+	# Hide the player mesh in first-person mode by default
+	if $Rig:
+		$Rig.visible = false
 
 func _input(event):
 	# Only process input if mouse is captured
@@ -119,11 +131,18 @@ func _input(event):
 		# Can't sprint while walking
 		if is_walking:
 			is_sprinting = false
+	
+	# Toggle camera mode with Backspace
+	if event.is_action_pressed("toggle_camera"):
+		toggle_camera_mode()
 
 func _physics_process(delta):
 	# Apply gravity
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
+		was_in_air = true
+	elif was_in_air:
+		_on_landed()
 	
 	# Calculate movement direction based on camera orientation
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -176,6 +195,9 @@ func _physics_process(delta):
 		can_jump = false
 		jump_timer.start()
 		
+		# Start jump animation
+		start_jump_animation()
+		
 		# Determine jump height based on crouch state
 		var jump_velocity = sqrt(2 * GRAVITY * (crouch_jump_height if is_crouching else jump_height))
 		velocity.y = jump_velocity
@@ -189,36 +211,50 @@ func _physics_process(delta):
 	# Move the character
 	move_and_slide()
 	
-	# Update animation states (in a full implementation)
+	# Update animation states
 	_update_animations(delta)
 
 func _update_animations(delta):
-	# This is a placeholder for animation state management
-	# In a full implementation, you would set animation states based on
-	# movement, crouching, jumping, etc.
+	# Skip animation updates if animation tree isn't ready
+	if !state_machine:
+		return
 	
-	# Example of how you might structure this:
-	var anim_state = "idle"
+	var current_state = state_machine.get_current_node()
+	var target_state = "idle"
 	
+	# Determine the appropriate animation state based on player state
 	if !is_on_floor():
-		anim_state = "jump"
+		# Handle jumping/falling animations
+		if current_state == "jump_start":
+			# Let jump_start animation finish
+			return
+		elif current_state == "jump_land":
+			# Let landing animation finish
+			return
+		elif velocity.y > 0:
+			target_state = "jump"
+		else:
+			target_state = "jump" # Use jump animation for falling too
 	elif is_crouching:
+		# Crouching states
 		if abs(velocity.x) > 0.1 or abs(velocity.z) > 0.1:
-			anim_state = "crouch_walk"
+			target_state = "crouch_walk"
 		else:
-			anim_state = "crouch_idle"
+			target_state = "crouch_idle"
 	else:
+		# Standing states
 		if is_sprinting:
-			anim_state = "sprint"
+			target_state = "sprint"
 		elif is_walking:
-			anim_state = "walk"
+			target_state = "walk"
 		elif abs(velocity.x) > 0.1 or abs(velocity.z) > 0.1:
-			anim_state = "jog"
+			target_state = "jog"
 		else:
-			anim_state = "idle"
+			target_state = "idle"
 	
-	# When you have an AnimationTree, you would set parameters like:
-	# animation_tree["parameters/state/transition"] = anim_state
+	# Only change state if we're not already in that state
+	if current_state != target_state:
+		state_machine.travel(target_state)
 
 func _update_crouch_state():
 	var capsule = collision_shape.shape as CapsuleShape3D
@@ -229,12 +265,15 @@ func _update_crouch_state():
 		# Reduce collision shape height
 		capsule.height = crouching_height
 		collision_shape.position.y = crouching_height / 2
-		# Lower camera position
-		camera.position.y = camera_crouching_height
 		
-		# Notify camera controller of position change
-		if camera.has_method("update_base_position"):
-			camera.update_base_position(Vector3(0, camera_crouching_height, 0))
+		# Only adjust camera in first-person mode
+		if !third_person_mode:
+			# Lower camera position
+			camera.position.y = camera_crouching_height
+			
+			# Notify camera controller of position change
+			if camera.has_method("update_base_position"):
+				camera.update_base_position(Vector3(0, camera_crouching_height, 0))
 	else:
 		# Check if there's enough room to stand up
 		var space_state = get_world_3d().direct_space_state
@@ -250,12 +289,15 @@ func _update_crouch_state():
 		# Return to normal height
 		capsule.height = standing_height
 		collision_shape.position.y = standing_height / 2
-		# Reset camera position
-		camera.position.y = camera_standing_height
 		
-		# Notify camera controller of position change
-		if camera.has_method("update_base_position"):
-			camera.update_base_position(Vector3(0, camera_standing_height, 0))
+		# Only adjust camera in first-person mode
+		if !third_person_mode:
+			# Reset camera position
+			camera.position.y = camera_standing_height
+			
+			# Notify camera controller of position change
+			if camera.has_method("update_base_position"):
+				camera.update_base_position(Vector3(0, camera_standing_height, 0))
 
 func _interact():
 	# Cast a ray to detect interactable objects
@@ -333,3 +375,38 @@ func get_current_weapon():
 	if weapon_manager:
 		return weapon_manager.weapons[weapon_manager.current_weapon_index]
 	return null
+
+func start_jump_animation():
+	if state_machine:
+		state_machine.travel("jump_start")
+
+func _on_landed():
+	if state_machine and is_on_floor() and was_in_air:
+		state_machine.travel("jump_land")
+		was_in_air = false
+
+func toggle_camera_mode():
+	third_person_mode = !third_person_mode
+	
+	if third_person_mode:
+		# Switch to third-person - higher and slightly closer
+		camera.position = Vector3(0, 2.0, 2.5)
+		# Make player mesh visible in third-person
+		if $Rig:
+			$Rig.visible = true
+		# Rotate the camera to face forward
+		camera.rotation = Vector3(-0.2, 0, 0)  # Tilt down slightly
+	else:
+		# Switch back to first-person
+		camera.position = first_person_cam_pos
+		# Hide player mesh in first-person
+		if $Rig:
+			$Rig.visible = false
+	
+	# Update the camera controller
+	if camera.has_method("set_third_person_mode"):
+		camera.set_third_person_mode(third_person_mode)
+	
+	# Update the camera controller's reference position
+	if camera.has_method("update_base_position"):
+		camera.update_base_position(camera.position)
