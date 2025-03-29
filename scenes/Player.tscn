@@ -395,27 +395,27 @@ switch_mode = 2
 advance_mode = 0
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wx1s8"]
-xfade_time = 0.2
+xfade_time = 0.5
 switch_mode = 2
 advance_mode = 0
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_im07a"]
-xfade_time = 0.2
+xfade_time = 0.5
 switch_mode = 2
 advance_mode = 0
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dsbg5"]
-xfade_time = 0.2
+xfade_time = 0.5
 switch_mode = 2
 advance_mode = 0
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_uobdy"]
-xfade_time = 0.2
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_axtmv"]
 switch_mode = 2
 advance_mode = 0
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_akpgi"]
-states/Start/position = Vector2(201, 100)
+states/End/position = Vector2(1182, 110)
+states/Start/position = Vector2(-122, 110)
 states/crouch_idle/node = SubResource("AnimationNodeAnimation_kumhx")
 states/crouch_idle/position = Vector2(320, 178)
 states/crouch_walk/node = SubResource("AnimationNodeAnimation_100hb")
@@ -434,8 +434,8 @@ states/sprint/node = SubResource("AnimationNodeAnimation_qduiv")
 states/sprint/position = Vector2(743, 100)
 states/walk/node = SubResource("AnimationNodeAnimation_7yj0e")
 states/walk/position = Vector2(455, 100)
-transitions = ["idle", "walk", SubResource("AnimationNodeStateMachineTransition_c0jld"), "walk", "jog", SubResource("AnimationNodeStateMachineTransition_mdclj"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_ml80s"), "jog", "walk", SubResource("AnimationNodeStateMachineTransition_vdgyb"), "jog", "sprint", SubResource("AnimationNodeStateMachineTransition_jvyme"), "sprint", "jog", SubResource("AnimationNodeStateMachineTransition_swrsk"), "idle", "crouch_idle", SubResource("AnimationNodeStateMachineTransition_pkfac"), "crouch_idle", "idle", SubResource("AnimationNodeStateMachineTransition_unhkg"), "crouch_idle", "crouch_walk", SubResource("AnimationNodeStateMachineTransition_2kajp"), "crouch_walk", "crouch_idle", SubResource("AnimationNodeStateMachineTransition_ku51j"), "walk", "crouch_walk", SubResource("AnimationNodeStateMachineTransition_la8f2"), "crouch_walk", "walk", SubResource("AnimationNodeStateMachineTransition_oanc2"), "idle", "jump_start", SubResource("AnimationNodeStateMachineTransition_41lfj"), "walk", "jump_start", SubResource("AnimationNodeStateMachineTransition_1nh4m"), "jog", "jump_start", SubResource("AnimationNodeStateMachineTransition_2hk6f"), "sprint", "jump_start", SubResource("AnimationNodeStateMachineTransition_xmxrx"), "crouch_idle", "jump_start", SubResource("AnimationNodeStateMachineTransition_kvw7q"), "crouch_walk", "jump_start", SubResource("AnimationNodeStateMachineTransition_p0eor"), "jump_start", "jump", SubResource("AnimationNodeStateMachineTransition_nrwhh"), "jump", "jump_land", SubResource("AnimationNodeStateMachineTransition_s7djh"), "jump_land", "idle", SubResource("AnimationNodeStateMachineTransition_wx1s8"), "jump_land", "walk", SubResource("AnimationNodeStateMachineTransition_im07a"), "jump_land", "jog", SubResource("AnimationNodeStateMachineTransition_dsbg5"), "jump_land", "crouch_idle", SubResource("AnimationNodeStateMachineTransition_uobdy")]
-graph_offset = Vector2(4, -18)
+transitions = ["idle", "walk", SubResource("AnimationNodeStateMachineTransition_c0jld"), "walk", "jog", SubResource("AnimationNodeStateMachineTransition_mdclj"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_ml80s"), "jog", "walk", SubResource("AnimationNodeStateMachineTransition_vdgyb"), "jog", "sprint", SubResource("AnimationNodeStateMachineTransition_jvyme"), "sprint", "jog", SubResource("AnimationNodeStateMachineTransition_swrsk"), "idle", "crouch_idle", SubResource("AnimationNodeStateMachineTransition_pkfac"), "crouch_idle", "idle", SubResource("AnimationNodeStateMachineTransition_unhkg"), "crouch_idle", "crouch_walk", SubResource("AnimationNodeStateMachineTransition_2kajp"), "crouch_walk", "crouch_idle", SubResource("AnimationNodeStateMachineTransition_ku51j"), "walk", "crouch_walk", SubResource("AnimationNodeStateMachineTransition_la8f2"), "crouch_walk", "walk", SubResource("AnimationNodeStateMachineTransition_oanc2"), "idle", "jump_start", SubResource("AnimationNodeStateMachineTransition_41lfj"), "walk", "jump_start", SubResource("AnimationNodeStateMachineTransition_1nh4m"), "jog", "jump_start", SubResource("AnimationNodeStateMachineTransition_2hk6f"), "sprint", "jump_start", SubResource("AnimationNodeStateMachineTransition_xmxrx"), "crouch_idle", "jump_start", SubResource("AnimationNodeStateMachineTransition_kvw7q"), "crouch_walk", "jump_start", SubResource("AnimationNodeStateMachineTransition_p0eor"), "jump_start", "jump", SubResource("AnimationNodeStateMachineTransition_nrwhh"), "jump", "jump_land", SubResource("AnimationNodeStateMachineTransition_s7djh"), "jump_land", "idle", SubResource("AnimationNodeStateMachineTransition_wx1s8"), "jump_land", "walk", SubResource("AnimationNodeStateMachineTransition_im07a"), "jump_land", "jog", SubResource("AnimationNodeStateMachineTransition_dsbg5"), "jump_land", "sprint", SubResource("AnimationNodeStateMachineTransition_axtmv")]
+graph_offset = Vector2(-56, -82)
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 floor_snap_length = 0.2
