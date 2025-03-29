@@ -36,7 +36,12 @@ func _ready():
 	# Initialize component references
 	movement_handler.initialize(self, camera, collision_shape, stats)
 	interaction_handler.initialize(self, camera)
-	animation_handler.initialize($AnimationTree)
+	
+	# Make sure AnimationTree exists before initializing
+	if has_node("AnimationTree"):
+		animation_handler.initialize($AnimationTree)
+	else:
+		print("ERROR: AnimationTree node not found!")
 	
 	# Initialize HUD with safety check
 	if hud and stats:
@@ -54,6 +59,10 @@ func _input(event):
 			rotate_y(-event.relative.x * mouse_sensitivity)
 			camera.rotate_x(-event.relative.y * mouse_sensitivity)
 			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+			
+			# Update aim direction based on camera pitch
+			if animation_handler:
+				animation_handler.update_aim_direction(camera.rotation.x)
 		return
 	
 	# Only process input if mouse is captured
